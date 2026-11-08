@@ -1,23 +1,45 @@
-import avatar from '../../images/avatar.jpg'
-import {useState} from 'react';
-import type {PopupConfig} from '../../types/types';
-import Popup from './Popup/Popup';
-import NewCard from './Popup/NewCard/NewCard';
-import EditProfile from './Popup/EditProfile/EditProfile';
-import EditAvatar from './Popup/EditAvatar/EditAvatar';
+import avatar from "../../images/avatar.jpg";
+import { useState } from "react";
+import type { PopupConfig, CardData } from "../../types/types";
+import Popup from "./Popup/Popup";
+import NewCard from "./Popup/NewCard/NewCard";
+import EditProfile from "./Popup/EditProfile/EditProfile";
+import EditAvatar from "./Popup/EditAvatar/EditAvatar";
+import Card from "./Card/Card";
 
-function Main() {
+const cards: CardData[] = [
+  {
+    isLiked: false,
+    _id: "5d1f0611d321eb4bdcd707dd",
+    name: "Yosemite Valley",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
+    owner: "5d1f0611d321eb4bdcd707dd",
+    createdAt: "2019-07-05T08:10:57.741Z",
+  },
+  {
+    isLiked: false,
+    _id: "5d1f064ed321eb4bdcd707de",
+    name: "Lake Louise",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
+    owner: "5d1f0611d321eb4bdcd707dd",
+    createdAt: "2019-07-05T08:11:58.324Z",
+  },
+];
+
+console.log(cards);
+
+export default function Main(): React.JSX.Element {
   const [popup, setPopup] = useState<PopupConfig | null>(null);
   const newCardPopup: PopupConfig = {
-    title: 'Nuevo lugar',
+    title: "Nuevo lugar",
     children: <NewCard />,
   };
   const editProfilePopup: PopupConfig = {
-    title: 'Editar perfil',
+    title: "Editar perfil",
     children: <EditProfile />,
   };
   const editAvatarPopup: PopupConfig = {
-    title: 'Cambiar foto de perfil',
+    title: "Cambiar foto de perfil",
     children: <EditAvatar />,
   };
 
@@ -30,7 +52,7 @@ function Main() {
   }
 
   return (
-  <main className="content">
+    <main className="content">
       <section className="profile page__section">
         <button
           aria-label="Editar avatar"
@@ -44,7 +66,7 @@ function Main() {
           <h1 className="profile__title">Jacques Cousteau</h1>
           <button
             aria-label="Editar perfil"
-            className ="profile__edit-button"
+            className="profile__edit-button"
             type="button"
             onClick={() => handleOpenPopup(editProfilePopup)}
           ></button>
@@ -59,30 +81,19 @@ function Main() {
       </section>
       <section className="cards page__section">
         <ul className="cards__list">
-          <template id="card-template">
-            <li className="card">
-              <img className="card__image" src="#" alt="" />
-              <button
-                aria-label="Eliminar tarjeta"
-                className="card__delete-button"
-                type="button"
-              ></button>
-              <div className="card__description">
-                <h2 className="card__title"></h2>
-                <button
-                  aria-label="Botón Me gusta"
-                  className="card__like-button"
-                  type="button"
-                ></button>
-              </div>
-            </li>
-          </template>
+          {cards.map((card) => (
+            <Card
+              key={card._id}
+              card={card}
+              handleOpenPopup={handleOpenPopup}
+            />
+          ))}
         </ul>
       </section>
       {popup && (
-        <Popup 
-          onClose={handleClosePopup} 
-          title={popup.title ?? ''}
+        <Popup
+          onClose={handleClosePopup}
+          title={popup.title ?? ""}
           isOpen={popup !== null}
         >
           {popup.children}
@@ -90,6 +101,4 @@ function Main() {
       )}
     </main>
   );
- };
- 
- export default Main;
+}
