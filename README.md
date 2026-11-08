@@ -6,7 +6,7 @@ La etapa actual se centra en organizar la interfaz en componentes reutilizables,
 
 ## Demo
 
-[Ver el proyecto en GitHub Pages](https://diechilui86.github.io/web_project_around/)
+[Ver el proyecto en GitHub Pages](https://diechilui86.github.io/web_project_around_react/)
 
 ## Funcionalidades
 
