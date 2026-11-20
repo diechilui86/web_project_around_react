@@ -5,7 +5,7 @@ export interface CardFormData {
 
 export interface UserFormData {
   name: string;
-  job: string;
+  about: string;
 }
 
 export interface ConfigObject {
@@ -41,3 +41,10 @@ export type PopupConfig = {
   title?: string;
   children: React.ReactNode;
 };
+
+export interface CurrentUserContextType {
+  currentUser: UserData | null;
+  handleUpdateUser: (userData: UserFormData) => Promise<void>;
+  handleUpdateAvatar: (data: { avatar: string }) => Promise<void>;
+  handleAddPlaceSubmit: (cardData: CardFormData) => void;
+}
