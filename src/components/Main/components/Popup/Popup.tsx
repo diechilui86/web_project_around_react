@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import CurrentUserContext from "../../../../contexts/CurrentUserContext";
+
 type PopupProps = {
   title?: string;
   children: React.ReactNode;
@@ -7,6 +10,7 @@ type PopupProps = {
 
 export default function Popup(props: PopupProps): React.JSX.Element {
   const { title, children, onClose, isOpen } = props;
+  const { isSaving } = useContext(CurrentUserContext);
   return (
     <div className={`popup ${isOpen ? "popup_is-opened" : ""}`}>
       <div
@@ -19,6 +23,7 @@ export default function Popup(props: PopupProps): React.JSX.Element {
           className="popup__close"
           type="button"
           onClick={onClose}
+          disabled={isSaving}
         ></button>
         {title && <h3 className="popup__title">{title}</h3>}
         {children}

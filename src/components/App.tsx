@@ -67,6 +67,7 @@ function App() {
   }, []);
 
   function handleOpenPopup(popup: PopupConfig) {
+    if (isSaving) return;
     setPopup(popup);
   }
 

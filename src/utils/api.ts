@@ -89,7 +89,9 @@ class Api {
       method: "DELETE",
       headers: this.headers,
     });
-    return await this.checkResponse<void>(response);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
   }
 
   addLike(cardId: string): Promise<CardData> {
