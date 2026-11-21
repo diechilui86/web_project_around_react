@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import type { PopupConfig, CardData } from "../../types/types";
-import Popup from "./Popup/Popup";
-import NewCard from "./Popup/NewCard/NewCard";
-import EditProfile from "./Popup/EditProfile/EditProfile";
-import EditAvatar from "./Popup/EditAvatar/EditAvatar";
-import Card from "./Card/Card";
+import Popup from "./components/Popup/Popup";
+import NewCard from "./components/Popup/NewCard/NewCard";
+import EditProfile from "./components/Popup/EditProfile/EditProfile";
+import EditAvatar from "./components/Popup/EditAvatar/EditAvatar";
+import Card from "./components/Card/Card";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 type MainProps = {
@@ -39,6 +39,7 @@ export default function Main(props: MainProps): React.JSX.Element {
           aria-label="Editar avatar"
           className="profile__image-button"
           type="button"
+          disabled={!currentUser}
           onClick={() => props.handleOpenPopup(editAvatarPopup)}
         >
           <img
@@ -53,6 +54,7 @@ export default function Main(props: MainProps): React.JSX.Element {
             aria-label="Editar perfil"
             className="profile__edit-button"
             type="button"
+            disabled={!currentUser}
             onClick={() => props.handleOpenPopup(editProfilePopup)}
           ></button>
           <p className="profile__description">{currentUser?.about}</p>

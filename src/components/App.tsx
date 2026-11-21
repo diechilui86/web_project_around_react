@@ -25,7 +25,11 @@ function App() {
         ? api.removeLike(card._id)
         : api.addLike(card._id);
       const newCard = await apiCall;
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard,
+        ),
+      );
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +38,9 @@ function App() {
   const handleCardDelete = async (card: CardData) => {
     try {
       await api.deleteCard(card._id);
-      setCards((state) => state.filter((c) => c._id !== card._id));
+      setCards((state) =>
+        state.filter((currentCard) => currentCard._id !== card._id),
+      );
       handleClosePopup();
     } catch (error) {
       console.error(error);
