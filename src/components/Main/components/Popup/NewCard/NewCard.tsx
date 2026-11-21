@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
 
 export default function NewCard(): React.JSX.Element {
-  const { handleAddPlaceSubmit } = useContext(CurrentUserContext);
+  const { handleAddPlaceSubmit, isSaving } = useContext(CurrentUserContext);
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
 
@@ -20,7 +20,7 @@ export default function NewCard(): React.JSX.Element {
     >
       <input
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(event) => setName(event.target.value)}
         className="popup__input popup__input_type_card-name"
         name="place-name"
         placeholder="Título"
@@ -32,7 +32,7 @@ export default function NewCard(): React.JSX.Element {
       <span className="place-name-input-error popup__input-error"></span>
       <input
         value={link}
-        onChange={(e) => setLink(e.target.value)}
+        onChange={(event) => setLink(event.target.value)}
         className="popup__input popup__input_type_url"
         name="link"
         placeholder="Enlace a la imagen"
@@ -40,8 +40,12 @@ export default function NewCard(): React.JSX.Element {
         type="url"
       />
       <span className="link-input-error popup__input-error"></span>
-      <button className="button popup__button" type="submit">
-        Crear
+      <button
+        className="button popup__button"
+        type="submit"
+        disabled={isSaving}
+      >
+        {isSaving ? "Guardando..." : "Crear"}
       </button>
     </form>
   );

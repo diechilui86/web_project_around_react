@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import CurrentUserContext from "../../../../../contexts/CurrentUserContext.tsx";
 import type { CardData } from "../../../../../types/types.ts";
 
 type RemoveCardProps = {
@@ -6,6 +8,7 @@ type RemoveCardProps = {
 };
 
 export default function RemoveCard(props: RemoveCardProps): React.JSX.Element {
+  const { isSaving } = useContext(CurrentUserContext);
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     props.handleCardDelete(props.card);
@@ -18,8 +21,12 @@ export default function RemoveCard(props: RemoveCardProps): React.JSX.Element {
       id="remove-card-form"
       name="removeCard"
     >
-      <button className="button popup__button" type="submit">
-        Sí
+      <button
+        className="button popup__button"
+        type="submit"
+        disabled={isSaving}
+      >
+        {isSaving ? "Eliminando..." : "Sí"}
       </button>
     </form>
   );

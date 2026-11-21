@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 import CurrentUserContext from "../../../../../contexts/CurrentUserContext";
 
 export default function EditProfile(): React.JSX.Element {
-  const { currentUser, handleUpdateUser } = useContext(CurrentUserContext);
+  const { currentUser, handleUpdateUser, isSaving } =
+    useContext(CurrentUserContext);
   const [name, setName] = useState(currentUser?.name || "");
   const [description, setDescription] = useState(currentUser?.about || "");
 
@@ -20,7 +21,7 @@ export default function EditProfile(): React.JSX.Element {
     >
       <input
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(event) => setName(event.target.value)}
         className="popup__input popup__input_type_name"
         name="name"
         placeholder="Nombre"
@@ -32,7 +33,7 @@ export default function EditProfile(): React.JSX.Element {
       <span className="name-input-error popup__input-error"></span>
       <input
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={(event) => setDescription(event.target.value)}
         className="popup__input popup__input_type_description"
         name="description"
         placeholder="Acerca de mí"
@@ -42,8 +43,12 @@ export default function EditProfile(): React.JSX.Element {
         required
       />
       <span className="description-input-error popup__input-error"></span>
-      <button className="button popup__button" type="submit">
-        Guardar
+      <button
+        className="button popup__button"
+        type="submit"
+        disabled={isSaving}
+      >
+        {isSaving ? "Guardando..." : "Guardar"}
       </button>
     </form>
   );

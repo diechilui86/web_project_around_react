@@ -17,6 +17,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [cards, setCards] = useState<CardData[]>([]);
   const [popup, setPopup] = useState<PopupConfig | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleCardLike = async (card: CardData) => {
     const isLiked = card.isLiked;
@@ -36,6 +37,7 @@ function App() {
   };
 
   const handleCardDelete = async (card: CardData) => {
+    setIsSaving(true);
     try {
       await api.deleteCard(card._id);
       setCards((state) =>
@@ -44,6 +46,8 @@ function App() {
       handleClosePopup();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -71,6 +75,7 @@ function App() {
   }
 
   const handleUpdateUser = async (userData: UserFormData) => {
+    setIsSaving(true);
     try {
       const userInfo = await api.updateUserInfo({
         name: userData.name,
@@ -80,26 +85,34 @@ function App() {
       handleClosePopup();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleUpdateAvatar = async ({ avatar }: { avatar: string }) => {
+    setIsSaving(true);
     try {
       const updatedUser = await api.updateAvatar(avatar);
       setCurrentUser(updatedUser);
       handleClosePopup();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleAddPlaceSubmit = async (data: CardFormData) => {
+    setIsSaving(true);
     try {
       const newCard = await api.createCard(data);
       setCards((state) => [newCard, ...state]);
       handleClosePopup();
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -110,6 +123,7 @@ function App() {
         handleUpdateUser,
         handleUpdateAvatar,
         handleAddPlaceSubmit,
+        isSaving,
       }}
     >
       <div className="page__content">
