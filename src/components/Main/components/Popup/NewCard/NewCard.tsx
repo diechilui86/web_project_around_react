@@ -5,6 +5,9 @@ export default function NewCard(): React.JSX.Element {
   const { handleAddPlaceSubmit, isSaving } = useContext(CurrentUserContext);
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [linkError, setLinkError] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,8 +23,15 @@ export default function NewCard(): React.JSX.Element {
     >
       <input
         value={name}
-        onChange={(event) => setName(event.target.value)}
-        className="popup__input popup__input_type_card-name"
+        onChange={(event) => {
+          const input = event.currentTarget;
+          setName(input.value);
+          setNameError(input.validationMessage);
+          setIsFormValid(input.form?.checkValidity() ?? false);
+        }}
+        className={`popup__input popup__input_type_card-name${
+          nameError ? " popup__input_type_error" : ""
+        }`}
         name="place-name"
         placeholder="Título"
         required
@@ -29,21 +39,40 @@ export default function NewCard(): React.JSX.Element {
         minLength={2}
         maxLength={30}
       />
-      <span className="place-name-input-error popup__input-error"></span>
+      <span
+        className={`place-name-input-error popup__input-error${
+          nameError ? " popup__input-error_active" : ""
+        }`}
+      >
+        {nameError}
+      </span>
       <input
         value={link}
-        onChange={(event) => setLink(event.target.value)}
-        className="popup__input popup__input_type_url"
+        onChange={(event) => {
+          const input = event.currentTarget;
+          setLink(input.value);
+          setLinkError(input.validationMessage);
+          setIsFormValid(input.form?.checkValidity() ?? false);
+        }}
+        className={`popup__input popup__input_type_url${
+          linkError ? " popup__input_type_error" : ""
+        }`}
         name="link"
         placeholder="Enlace a la imagen"
         required
         type="url"
       />
-      <span className="link-input-error popup__input-error"></span>
+      <span
+        className={`link-input-error popup__input-error${
+          linkError ? " popup__input-error_active" : ""
+        }`}
+      >
+        {linkError}
+      </span>
       <button
-        className="button popup__button"
+        className={`button popup__button${!isFormValid ? " popup__button_disabled" : ""}`}
         type="submit"
-        disabled={isSaving}
+        disabled={isSaving || !isFormValid}
       >
         {isSaving ? "Guardando..." : "Crear"}
       </button>
